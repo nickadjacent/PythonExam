@@ -1,0 +1,32 @@
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
+#wrapper {
+  height: 800px;
+  margin: 0px auto;
+}
+
+h1 {
+  font-size: 50px;
+  font-weight: lighter;
+}
+
+.bg-img {
+  background-image: url("https://archpaper.com/wp-content/uploads/2015/09/render-1.jpeg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  /* filter: blur(8px);
+  -webkit-filter: blur(8px); */
+}
+
+.bg-text {
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/opacity/see-through */
+  color: white;
+  font-weight: bold;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'quote_dashboard.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+        crossorigin="anonymous"></script>
+</head>
+
+<body id="wrapper">
+    <div>
+        <section id="header_name" style="float: left; width: 25%;">
+            <h1>Welcome {{user.first_name}} {{user.last_name}}!</h1>
+        </section>
+        <section style="float: right; width: 75%;">
+            <div class="header_link">
+                <a href="/myaccount/{{user.id}}">Edit My Account</a>
+            </div>
+            <div class="header_link">
+                <a href="/logout">Logout</a>
+            </div>
+        </section>
+        <div style="clear: both;"></div>
+    </div>
+    <br>
+    <section style="float: left; width: 49.5%;">
+        <h3 style="margin-left: 20%;">Quotes</h3>
+        {% for stuff in user_quotes %}
+        <fieldset style="width: 50%; margin: 5px 0px;">
+            <p>{{stuff.name}}: "{{stuff.quote}}"</p>
+            <br>
+            <p>Posted by <a href="/user/{{stuff.user.id}}">{{stuff.user.first_name}} {{stuff.user.last_name}}</a></p>
+            <br>
+            <section style="float: left; width: 75%;">
+                <p>{{stuff.users_who_liked.all | length}} people liked this</p>
+            </section>
+            <section style="float: left;">
+                <a href="/like/{{stuff.id}}">Like</a>
+            </section>
+            <div style="clear:both;"></div>
+            {% if stuff.user == user %}
+            <a href="/remove_quote/{{stuff.id}}">Delete</a>
+            {% endif %}
+        </fieldset>
+        {% endfor %}
+    </section>
+    <section style="float: left; width: 49.5%;">
+        <h1 style="margin-left: 15%;">Add a Quote!</h1>
+        <form action="/add_author" method="post" style='margin: 20px 0px;'>
+            {% csrf_token %}
+            <section style="float: left; width: 25%;">
+                <p><label for="name">Author</label></p>
+                <p><label for="quote">Quote</label></p>
+            </section>
+            <section style="float: left;">
+                <p><input type="text" name="name"></p>
+                <p><input type="textarea" name="quote"></p>
+                <button type="submit">Submit</button>
+            </section>
+        </form>
+        <div style="clear:both;"></div>
+        {% if messages %}
+        <ul style='color: red;' class="messages">
+                {% for message in messages %}
+                    <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+                {% endfor %}
+        </ul>
+        {% endif %}
+    </section>
+</body>
+
+</html>

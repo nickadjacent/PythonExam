@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Account</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'edit_account.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+        crossorigin="anonymous"></script>
+</head>
+
+<body id="wrapper">
+    <div>
+        <h1>Edit my account</h1>
+        <a href="/quotes">Back</a>
+        <a href="/logout">Logout</a>
+    </div>
+    {% if messages %}
+    <ul style="color: red;" class="messages">
+            {% for message in messages %}
+                <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+            {% endfor %}
+    </ul>
+    {% endif %}
+    <div style="width: 35%; margin-top: 20px;">
+        <form action="/update/{{user.id}}" method="POST">
+            {% csrf_token %}
+            <section style="float: left; width: 25%;">
+                <p><label for="first_name">First Name:</label></p>
+                <p><label for="last_name">Last Name:</label></p>
+                <p><label for="email">Email:</label></p>
+            </section>
+            <section style="float: left; width: 75%;">
+                <p><input type="text" name="first_name" value="{{user.first_name}}"></p>
+                <p><input type="text" name="last_name" value="{{user.last_name}}"></p>
+                <p><input type="text" name="email" value="{{user.email}}"></p>
+                <button type="submit">Update</button>
+            </section>
+        </form>
+    </div>
+</body>
+
+</html>
